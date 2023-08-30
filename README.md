@@ -1,5 +1,3 @@
-# Blog-express-sql-nuevo
-<<<<<<< HEAD
  
 # Blog-express-sql-nuevo
 =======
@@ -35,7 +33,6 @@ Clonar repositorio y correr el comando
 npm install
 npm build
 npm start
-<<<<<<< HEAD
-=======
+
 
 >>>>>>> 8875a5f93c1b537fb64b60d9f897bd73d5174d71
