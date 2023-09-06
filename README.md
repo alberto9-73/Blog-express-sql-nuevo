@@ -1,7 +1,7 @@
  
 # Blog-express-sql-nuevo
 =======
->>>>>>> 8875a5f93c1b537fb64b60d9f897bd73d5174d71
+
 1- iniciamos el repositorio npm
 
 npm init --yes
@@ -35,4 +35,7 @@ npm build
 npm start
 
 
->>>>>>> 8875a5f93c1b537fb64b60d9f897bd73d5174d71
+instalar
+npm i typeorm sqlite3
+
+
