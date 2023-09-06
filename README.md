@@ -14,10 +14,13 @@ npm i -D typescript @types/express @types/node
 4 Creamos el archivo tsconfig.conf
 
 npx tsc --init
+
 5 Creamos el archivo .gitignore
 
 node_modules
 dist
+
+
 6 Agregamos dos scripts en el archivo package.json
 
 	"scripts": {
