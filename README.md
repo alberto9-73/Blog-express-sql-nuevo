@@ -5,12 +5,17 @@
 1- iniciamos el repositorio npm
 
 npm init --yes
+
 2 instalamos express
 
 npm install express
+
+
 3 instalamos typescript y los types de express
 
 npm i -D typescript @types/express @types/node
+
+
 4 Creamos el archivo tsconfig.conf
 
 npx tsc --init
@@ -28,9 +33,12 @@ dist
 	"start": "node dist/index.js",
 	"dev": "nodemon server.ts"
     }
+
+
 8 Modificar archivo tsconfig.json descomentado la linea "outDir": "./" y agregando la carpeta dist "outDir": "./dist"
 
 Ejecutar APP
+
 Clonar repositorio y correr el comando
 
 npm install
@@ -39,6 +47,7 @@ npm start
 
 
 instalar
+
 npm i typeorm sqlite3
 
 
