@@ -3,6 +3,8 @@ import { Usuario } from '../usuarios/usuario.entity';
 import { dbcontext } from '../db/dbcontext';
 import bcrypt from 'bcrypt';
 import { Ilogin } from './auth.interface';
+import logger from '../logger/logger';
+import { generarTokenJWT } from '../auth/jwt.service';
 
 export const login = async (req: Request, res: Response) => {
 	try {
@@ -22,15 +24,30 @@ export const login = async (req: Request, res: Response) => {
 		const compararPass = await bcrypt.compare(
 			dataRequest.pass,
 			buscarUsuario.pass
+
 		);
+		if(!compararPass){
+			throw new Error()
+		}
+
+		const payLoad={
+			id_usuario:buscarUsuario.id,
+			email:buscarUsuario.email,
+			nombre:buscarUsuario.nombre,
+			apellido:buscarUsuario.apellido
+
+		}
+		const token= generarTokenJWT(payLoad)
 
 		res.json({
-			msg: `El resultado del login fue : ${compararPass}`,
+			token:token,
 		});
 	} catch (error) {
 		// implementar logging en modo ERROR
-		res.json({msg:'Usuario/contraseña incorrecto'})
-		throw new Error('Usuario/contraseña incorrecto');
+		
+		logger.error(error)
+		res.status(401).json({msg:'Usuario no autorizado'})
+		
 		
 	}
 }; 

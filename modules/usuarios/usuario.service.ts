@@ -8,8 +8,8 @@ export const crearUsuario = async (req: Request, res: Response) => {
 	try {
 		const usuarioRepository = dbcontext.getRepository(Usuario);
 		let usuarioData: iUsuario= req.body;
-        usuarioData.email=usuarioData.email.toLowerCase();
-		
+       // usuarioData.email=usuarioData.email.toLowerCase();
+
 		const usuario = await usuarioRepository.create(usuarioData);
 		const guardarUsuario = await usuarioRepository.save(usuario);
 		res.json({

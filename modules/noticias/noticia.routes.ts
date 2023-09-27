@@ -6,11 +6,12 @@ import {
 	borrarNoticia,
 	actulizarNoticia,
 } from './noticia.service';
+import { verifyTokenMiddleware } from '../auth/auth.middleware';
 
 const noticiasRoutes = express.Router();
 
 // endpoint para crear una noticia
-noticiasRoutes.post('/', crearNoticia);
+noticiasRoutes.post('/',verifyTokenMiddleware,crearNoticia);
 
 // endpoint para consultar todas las noticias
 

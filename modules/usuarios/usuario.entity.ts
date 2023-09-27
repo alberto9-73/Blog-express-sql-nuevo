@@ -9,6 +9,7 @@ import {
 } from 'typeorm';
 
 import bcrypt from 'bcrypt'
+import { normalize } from 'path';
 
 @Entity()
 export class Usuario {
@@ -35,8 +36,13 @@ export class Usuario {
 
 	@BeforeInsert()
 	async hashPassword(){
-		this.pass= await bcrypt .hash(this.pass, 10)
+		this.pass= await bcrypt.hash(this.pass, 10)
 	}
+	@BeforeInsert()
+		estandar(){
+			this.email=this.email.toLocaleLowerCase()
+		}
+	
 }
 
 
