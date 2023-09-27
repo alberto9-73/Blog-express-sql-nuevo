@@ -1,4 +1,12 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+	Column,
+	CreateDateColumn,
+	Entity,
+	OneToMany,
+	PrimaryGeneratedColumn,
+	UpdateDateColumn,
+} from 'typeorm';
+import { Comentario } from '../comentarios/comentario.entity';
 
 @Entity()
 export class Noticia {
@@ -11,10 +19,12 @@ export class Noticia {
 	@Column()
 	contenido: string;
 
-    @CreateDateColumn()
-	create_at:Date
-
+	@CreateDateColumn()
+	create_at: Date;
 
 	@UpdateDateColumn()
 	updated_at: Date;
+
+	@OneToMany(() => Comentario, (c) => c.noticia)
+	comentarios: Comentario[];
 }
