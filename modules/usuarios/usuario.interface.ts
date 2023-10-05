@@ -1,5 +1,4 @@
 export interface iUsuario{
-    toLowerCase(): string;
     id?:string;
     email:string;
     pass?:string;

@@ -5,6 +5,7 @@ import bcrypt from 'bcrypt';
 import { Ilogin } from './auth.interface';
 import logger from '../logger/logger';
 import { generarTokenJWT } from '../auth/jwt.service';
+import {IjwtPayload} from './jwt.interface';
 
 export const login = async (req: Request, res: Response) => {
 	try {
@@ -27,17 +28,18 @@ export const login = async (req: Request, res: Response) => {
 
 		);
 		if(!compararPass){
-			throw new Error()
+			throw new Error('Usuario/contraseña incorrecta')
 		}
 
-		const payLoad={
-			id_usuario:buscarUsuario.id,
-			email:buscarUsuario.email,
-			nombre:buscarUsuario.nombre,
-			apellido:buscarUsuario.apellido
-
-		}
-		const token= generarTokenJWT(payLoad)
+		const payload: IjwtPayload = {
+			usuario: {
+				id: buscarUsuario.id,
+				nombre: buscarUsuario.nombre,
+				apellido: buscarUsuario.apellido,
+				email: buscarUsuario.email,
+			},
+		};
+		const token= generarTokenJWT(payload)
 
 		res.json({
 			token:token,

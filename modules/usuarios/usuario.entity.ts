@@ -4,12 +4,15 @@ import {
 	Column,
 	CreateDateColumn,
 	Entity,
+	ManyToOne,
+	OneToMany,
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
 } from 'typeorm';
 
 import bcrypt from 'bcrypt'
-import { normalize } from 'path';
+import { Noticia } from '../noticias/noticia.entity';
+//import { normalize } from 'path';
 
 @Entity()
 export class Usuario {
@@ -33,6 +36,10 @@ export class Usuario {
 
 	@UpdateDateColumn()
 	updated_at: Date;
+	id_usuario: any;
+
+	@OneToMany(() => Noticia, (n) => n.usuario)
+	noticias: Noticia[];
 
 	@BeforeInsert()
 	async hashPassword(){
@@ -42,6 +49,9 @@ export class Usuario {
 		estandar(){
 			this.email=this.email.toLocaleLowerCase()
 		}
+//agrego relacion a la entidad
+
+   
 	
 }
 
