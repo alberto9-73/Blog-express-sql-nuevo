@@ -12,6 +12,7 @@ import {
 
 import bcrypt from 'bcrypt'
 import { Noticia } from '../noticias/noticia.entity';
+import { iUsuario } from './usuario.interface';
 //import { normalize } from 'path';
 
 @Entity()
@@ -36,7 +37,7 @@ export class Usuario {
 
 	@UpdateDateColumn()
 	updated_at: Date;
-	id_usuario: any;
+	id_usuario: iUsuario;
 
 	@OneToMany(() => Noticia, (n) => n.usuario)
 	noticias: Noticia[];

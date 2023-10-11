@@ -32,9 +32,13 @@ app.use(logMiddleware);
 app.use(bodyParser.json());
 
 app.use('/noticia', noticiasRoutes);
+
 app.use('/comentario', comentariosRoutes);
-app.use('/usuario',usuarioRoutes)
-app.use('/auth',authRoutes)
+
+app.use('/usuario',usuarioRoutes);
+
+app.use('/auth',authRoutes);
+
 app.listen(PORT, () => {
-	logger.info('Servidor funcionando OK 🚀 EN EL PORT ' + PORT);
+	logger.info('Servidor funcionando OK 🚀⭐ EN EL PORT ' + PORT);
 });

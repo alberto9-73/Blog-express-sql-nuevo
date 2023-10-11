@@ -5,6 +5,7 @@ import {
 	obtenerNoticiaId,
 	borrarNoticia,
 	actulizarNoticia,
+	listarNoticiaByUsuario,
 } from './noticia.service';
 import { verifyTokenMiddleware } from '../auth/auth.middleware';
 
@@ -17,6 +18,7 @@ noticiasRoutes.post('/',verifyTokenMiddleware,crearNoticia);
 
 noticiasRoutes.get('/', listarNoticia);
 
+
 // // [GET] endpoint obtener noticia por id /:id
 
 noticiasRoutes.get('/:id', obtenerNoticiaId);
@@ -26,4 +28,8 @@ noticiasRoutes.delete('/:id', borrarNoticia);
 
 // [PATCH] endpoint update
 noticiasRoutes.patch('/:id', actulizarNoticia);
+
+// /my noticies
+noticiasRoutes.get('/my/all', verifyTokenMiddleware, listarNoticiaByUsuario)
+
 export default noticiasRoutes;
