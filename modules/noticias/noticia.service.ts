@@ -3,8 +3,7 @@ import { iNoticia } from './noticia.interface';
 import { Noticia } from './noticia.entity';
 import { dbcontext } from '../db/dbcontext';
 import logger from '../logger/logger';
-import { iUsuario } from '../usuarios/usuario.interface';
-import { Usuario } from '../usuarios/usuario.entity';
+import { ILike, Like } from "typeorm"
 
 
 
@@ -18,9 +17,6 @@ export const crearNoticia = async (req: Request, res: Response) => {
 			usuario: { id: req.usuario.id },
 		});
 		const result = await noticiaRepository.save(noticia);
-
-
-
 		res.json({
 			msg: `Se creo la noticia correctamente con el id: ${result.id}`,
 		});
@@ -30,10 +26,7 @@ export const crearNoticia = async (req: Request, res: Response) => {
 	}
 };
 
-
-
-
-export const listarNoticia = async (req: Request, res: Response) => {
+/* export const listarNoticia = async (req: Request, res: Response) => {
 	try {
 		const noticiaRepository = await dbcontext.getRepository(Noticia);
 		const noticias = await noticiaRepository.find();
@@ -42,14 +35,20 @@ export const listarNoticia = async (req: Request, res: Response) => {
 		console.log(error);
 		res.status(500).json({ msg: 'No se pudo obtener un listado de noticias' });
 	}
-};
+}; */
 // // obtener noticia por id
-export const obtenerNoticiaId = async (req: Request, res: Response) => {
+export const obtenerNoticia= async (req: Request, res: Response) => {
 	try {
+		const titulo=req.query.titulo?.toString();
+		const contenido=req.query.contenido?.toString();
+		const idNoticia=req.query.id?.toString();
 		const noticiaRepository = await dbcontext.getRepository(Noticia);
-		const noticia = await noticiaRepository.findOne({
-			where: { id: req.params.id },
-			relations: ['comentarios'],
+
+		const noticia = await noticiaRepository.findBy({
+			titulo: ILike(`%${titulo || ''}%`),
+			contenido: ILike(`%${contenido || ''}%`),
+			id: idNoticia,
+			
 		});
 		if (!noticia) {
 			throw new Error();
@@ -57,7 +56,7 @@ export const obtenerNoticiaId = async (req: Request, res: Response) => {
 		res.json({ noticia });
 	} catch (error) {
 		logger.error(
-			`No se puedo obtener la noticia con id ${req.params.id} desde el ip ${req.ip} `
+			`No se pudo obtener la noticia con id ${req.params.id} desde el ip ${req.ip} `
 		);
 		res.status(404).json({ msg: 'No se pudo encontrar la noticia' });
 	}
@@ -99,9 +98,7 @@ export const listarNoticiaByUsuario = async (req: Request, res: Response) => {
 		const noticiaRepository = await dbcontext.getRepository(Noticia);
 		const noticias = await noticiaRepository.find({
 			where: { usuario: { id: req.usuario.id } },
-			order: {
-				create_at: 'DESC',
-			},
+			order: {create_at: 'DESC'},
 		});
 
 		res.json({ data: noticias, cantidad: noticias.length });
@@ -110,6 +107,30 @@ export const listarNoticiaByUsuario = async (req: Request, res: Response) => {
 		res.status(500).json({ msg: 'No se pudo obtener un listado de noticias' });
 	}
 };
+
+// export const mostrarNoticiaByTitulo = async (req: Request, res: Response) => {
+// 	try {
+// 		const noticiaRepository = await dbcontext.getRepository(Noticia)
+// 		const titulo= req.query.titulo
+// 		logger.debug(titulo)
+// 		const noticias = await noticiaRepository.find({
+// 			where: { titulo: Like (`%${titulo}%`) },
+// 			order:{create_at: 'ASC'}
+			
+// 		});
+// 		res.json({ data: noticias, cantidad: noticias.length });
+// 	} catch (error) {
+// 		console.log(error);
+// 		res.status(500).json({ msg: 'No se pudo obtener un listado de noticias' });
+// 	}
+// };
+
+
+
+
+
+
+
 
 
 // export const obtenerNoticiaId = (req: Request, res: Response) => {

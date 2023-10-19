@@ -8,7 +8,6 @@ import logger from './modules/logger/logger';
 import { TypeORMError } from 'typeorm';
 import dotenv from 'dotenv';
 import { usuarioRoutes } from './modules/usuarios/usuario.routes';
-import { Usuario } from './modules/usuarios/usuario.entity';
 import { authRoutes } from './modules/auth/auth.routes';
 
 

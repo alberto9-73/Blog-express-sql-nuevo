@@ -1,11 +1,12 @@
 import express from 'express';
 import {
 	crearNoticia,
-	listarNoticia,
-	obtenerNoticiaId,
+	//listarNoticia,
+	obtenerNoticia,
 	borrarNoticia,
 	actulizarNoticia,
 	listarNoticiaByUsuario,
+	//mostrarNoticiaByTitulo,
 } from './noticia.service';
 import { verifyTokenMiddleware } from '../auth/auth.middleware';
 
@@ -16,12 +17,12 @@ noticiasRoutes.post('/',verifyTokenMiddleware,crearNoticia);
 
 // endpoint para consultar todas las noticias
 
-noticiasRoutes.get('/', listarNoticia);
+//noticiasRoutes.get('/', listarNoticia);
 
 
 // // [GET] endpoint obtener noticia por id /:id
 
-noticiasRoutes.get('/:id', obtenerNoticiaId);
+noticiasRoutes.get('/', obtenerNoticia);
 
 // // [DELETE] endpoint borrar
 noticiasRoutes.delete('/:id', borrarNoticia);
@@ -30,6 +31,9 @@ noticiasRoutes.delete('/:id', borrarNoticia);
 noticiasRoutes.patch('/:id', actulizarNoticia);
 
 // /my noticies
-noticiasRoutes.get('/my/all', verifyTokenMiddleware, listarNoticiaByUsuario)
+noticiasRoutes.get('/my/all', verifyTokenMiddleware, listarNoticiaByUsuario);
+
+//noticiasRoutes.get('/titulo/buscar', mostrarNoticiaByTitulo);
+
 
 export default noticiasRoutes;
