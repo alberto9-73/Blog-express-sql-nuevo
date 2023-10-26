@@ -3,9 +3,7 @@ import { iNoticia } from './noticia.interface';
 import { Noticia } from './noticia.entity';
 import { dbcontext } from '../db/dbcontext';
 import logger from '../logger/logger';
-import { ILike, Like } from "typeorm"
-
-
+import { ILike } from "typeorm"
 
 export const crearNoticia = async (req: Request, res: Response) => {
 	try {
@@ -42,19 +40,27 @@ export const obtenerNoticia= async (req: Request, res: Response) => {
 		const titulo=req.query.titulo?.toString();
 		const contenido=req.query.contenido?.toString();
 		const idNoticia=req.query.id?.toString();
+		
 		const noticiaRepository = await dbcontext.getRepository(Noticia);
-
-		const noticia = await noticiaRepository.findBy({
-			titulo: ILike(`%${titulo || ''}%`),
-			contenido: ILike(`%${contenido || ''}%`),
-			id: idNoticia,
+		
+		const noticia = await noticiaRepository.find({
+			where:  {
+					titulo: ILike(`%${titulo || ''}%`),
+					contenido: ILike(`%${contenido || ''}%`),
+					id:idNoticia
+				},
+				relations: {
+					comentarios: true,
+				},
+			},
 			
-		});
+		);
+		
 		if (!noticia) {
 			throw new Error();
 		}
-		res.json({ noticia });
-	} catch (error) {
+		res.json({ noticia,cantidad: noticia.length});
+	} catch (error) { 
 		logger.error(
 			`No se pudo obtener la noticia con id ${req.params.id} desde el ip ${req.ip} `
 		);
@@ -84,12 +90,12 @@ export const actulizarNoticia = async (req: Request, res: Response) => {
 		const updateNoticia: iNoticia = req.body;
 		const result = await noticiaRepository.update(idNoticia, updateNoticia);
 		if (!result.affected) {
-			throw new Error('No se puedo actulizar la noticia');
+			throw new Error('No se puedo actualizar la noticia');
 		}
-		res.json({ msg: 'Noticia actulizada correctamente!!' });
+		res.json({ msg: 'Noticia actualizada correctamente!!' });
 	} catch (error) {
 		console.log(error);
-		res.status(404).json({ msg: 'No se puedo actulizar la noticia' });
+		res.status(404).json({ msg: 'No se puedo actualizar la noticia' });
 	}
 };
 

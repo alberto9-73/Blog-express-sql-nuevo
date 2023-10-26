@@ -6,7 +6,7 @@ dotenv.config()
 export const dbcontext = new DataSource({
 	type: 'mariadb',
 	logging:false,
-	synchronize:true,
+	synchronize:false,
 	host:'127.0.0.1',
 	port:3306,
 	username:'root',
